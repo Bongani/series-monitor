@@ -1,7 +1,7 @@
 //
 // http://spark.apache.org/docs/latest/quick-start.html#a-standalone-app-in-scala
 //
-name         := """series-monitor"""
+name         := "series-monitor"
 organization := "bongani"
 version      := "1.0"
 scalaVersion := Version.scala
