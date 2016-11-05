@@ -1,41 +1,34 @@
-import akka.actor.{ Actor, Props }
+import akka.actor.{ ActorSystem, Actor, Props }
 import org.apache.spark._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.receiver._
-
-class Helloer extends Actor with ActorHelper {
-  override def preStart() = {
-    println("")
-    println("=== Helloer is starting up ===")
-    println(s"=== path=${context.self.path} ===")
-    println("")
-  }
-  def receive = {
-    // store() method allows us to store the message so Spark Streaming knows about it
-    // This is the integration point (from Akka's side) between Spark Streaming and Akka
-    case s => store(s)
-  }
-}
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object StreamingApp {
+
   def main(args: Array[String]) {
-    // Configuration for a Spark application.
-    // Used to set various Spark parameters as key-value pairs.
-    val driverPort = 7777
+
+    val actorSystem = ActorSystem("SeriesMonitorSystem")
+    val stream1Actor = actorSystem.actorOf(Props[Stream1Actor], name = "stream1Actor")
+    val stream0Actor = actorSystem.actorOf(Props(new Stream0Actor(stream1Actor)), name = "stream0Actor")
+    val numberGenerator = actorSystem.actorOf(Props(new NumberGenerator(stream0Actor)), name = "numberGenerator")
+
+    val caanc = actorSystem.scheduler.scheduleOnce(20 seconds) {
+      println("shutdown")
+      actorSystem.terminate()
+    }
+
+    /*val driverPort = 7777
     val driverHost = "localhost"
-    val conf = new SparkConf(false) // skip loading external settings
-      .setMaster("local[*]") // run locally with as many threads as CPUs
-      .setAppName("Spark Streaming with Scala and Akka") // name in web UI
-      .set("spark.logConf", "true")
-      .set("spark.driver.port", driverPort.toString)
-      .set("spark.driver.host", driverHost)
-      .set("spark.akka.logLifecycleEvents", "true")
-    val ssc = new StreamingContext(conf, Seconds(1))
+
+    val ssc: StreamingContext = buildSparkStreamingContext(driverPort, driverHost)
+
     val actorName = "helloer"
 
     // This is the integration point (from Spark's side) between Spark Streaming and Akka system
     // It's expected that the actor we're now instantiating will `store` messages (to close the integration loop)
-    val actorStream = ssc.actorStream[String](Props[Helloer], actorName)
+    val actorStream = ssc.actorStream[String](Props[SparkStreamActor], actorName)
 
     // describe the computation on the input stream as a series of higher-level transformations
     actorStream.reduce(_ + " " + _).print()
@@ -60,6 +53,23 @@ object StreamingApp {
     helloer ! "Akka"
 
     scala.io.StdIn.readLine("Press Enter to stop Spark Streaming context and the application...")
-    ssc.stop(stopSparkContext = true, stopGracefully = true)
+    //send poison pill
+    ssc.stop(stopSparkContext = true, stopGracefully = true)*/
   }
+
+  /**
+   * Used to configure Spark for the application and create the the streaming context
+   */
+  private def buildSparkStreamingContext(driverPort: Int, driverHost: String): StreamingContext = {
+    val sparkConfiguration = new SparkConf(false) // skip loading external settings
+      .setMaster("local[*]") // run locally with as many threads as CPUs
+      .setAppName("Spark Streaming with Scala and Akka") // name in web UI
+      .set("spark.logConf", "true")
+      .set("spark.driver.port", driverPort.toString)
+      .set("spark.driver.host", driverHost)
+      .set("spark.akka.logLifecycleEvents", "true")
+    return new StreamingContext(sparkConfiguration, Seconds(1))
+  }
+
+  //private def mastermessaging()
 }
