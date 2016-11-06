@@ -20,7 +20,6 @@ class NumberGenerator(stream0Ref: ActorRef) extends Actor {
 
   override def receive: Receive = {
     case number: Int => {
-      println("Number Gen: " + number)
       val generatedNumber = numberGenerator()
       stream0Ref ! generatedNumber
       self ! generatedNumber

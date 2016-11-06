@@ -9,52 +9,39 @@ object StreamingApp {
 
   def main(args: Array[String]) {
 
-    val actorSystem = ActorSystem("SeriesMonitorSystem")
-    val stream1Actor = actorSystem.actorOf(Props[Stream1Actor], name = "stream1Actor")
-    val stream0Actor = actorSystem.actorOf(Props(new Stream0Actor(stream1Actor)), name = "stream0Actor")
-    val numberGenerator = actorSystem.actorOf(Props(new NumberGenerator(stream0Actor)), name = "numberGenerator")
-
-    val caanc = actorSystem.scheduler.scheduleOnce(20 seconds) {
-      println("shutdown")
-      actorSystem.terminate()
-    }
-
-    /*val driverPort = 7777
+    val driverPort = 7777
     val driverHost = "localhost"
 
+    //spark
     val ssc: StreamingContext = buildSparkStreamingContext(driverPort, driverHost)
-
-    val actorName = "helloer"
-
+    val actorName = "SparkStreamActor"
     // This is the integration point (from Spark's side) between Spark Streaming and Akka system
     // It's expected that the actor we're now instantiating will `store` messages (to close the integration loop)
-    val actorStream = ssc.actorStream[String](Props[SparkStreamActor], actorName)
-
+    val sparkStreamActor = ssc.actorStream[String](Props[SparkStreamActor], actorName)
     // describe the computation on the input stream as a series of higher-level transformations
-    actorStream.reduce(_ + " " + _).print()
-
+    //sparkStreamActor.reduce(_ + " " + _).print()
+    sparkStreamActor.print()
     // start the streaming context so the data can be processed
     // and the actor gets started
     ssc.start()
-
     // FIXME wish I knew a better way to handle the asynchrony
     java.util.concurrent.TimeUnit.SECONDS.sleep(3)
+    val sparkActorSystem = SparkEnv.get.actorSystem
+    val sparkUrl = s"akka.tcp://sparkDriver@$driverHost:$driverPort/user/Supervisor0/$actorName"
+    val sparkActorRef = sparkActorSystem.actorSelection(sparkUrl)
 
-    val actorSystem = SparkEnv.get.actorSystem
-
-    val url = s"akka.tcp://sparkDriver@$driverHost:$driverPort/user/Supervisor0/$actorName"
-    val helloer = actorSystem.actorSelection(url)
-    helloer ! "Hello"
-    helloer ! "from"
-    helloer ! "Spark Streaming"
-    helloer ! "with"
-    helloer ! "Scala"
-    helloer ! "and"
-    helloer ! "Akka"
+    val actorSystem = ActorSystem("SeriesMonitorSystem")
+    val stream1Actor = actorSystem.actorOf(Props[Stream1Actor], name = "stream1Actor")
+    val stream0Actor = actorSystem.actorOf(Props(new Stream0Actor(stream1Actor, sparkActorRef)), name = "stream0Actor")
+    val numberGenerator = actorSystem.actorOf(Props(new NumberGenerator(stream0Actor)), name = "numberGenerator")
 
     scala.io.StdIn.readLine("Press Enter to stop Spark Streaming context and the application...")
-    //send poison pill
-    ssc.stop(stopSparkContext = true, stopGracefully = true)*/
+    ssc.stop(stopSparkContext = true, stopGracefully = true)
+
+    actorSystem.scheduler.scheduleOnce(4 seconds) {
+      println("shutdown")
+      //actorSystem.terminate()
+    }
   }
 
   /**
