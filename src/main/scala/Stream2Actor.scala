@@ -30,6 +30,10 @@ class Stream2Actor extends Actor {
         " " + data.oldestAge.toString + " " + data.youngestAge.toString
       printWriter.write(computedString + "\n")
     }
+    case value: Double =>
+      println("Recieved DSTREAM!!!!!!")
+    case value: String =>
+      println("GETTING SOMETHING")
   }
 
   private def round(value: Double): String = {

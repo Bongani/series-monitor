@@ -2,7 +2,6 @@ import sbt._
 
 object Version {
   val akka      = "2.4.1"
-  val hadoop    = "2.7.1"
   val logback   = "1.1.3"
   val mockito   = "1.10.19"
   val scala     = "2.11.7"
@@ -14,7 +13,6 @@ object Version {
 object Library {
   val akkaActor      = "com.typesafe.akka" %% "akka-actor"      % Version.akka
   val akkaTestKit    = "com.typesafe.akka" %% "akka-testkit"    % Version.akka
-  val hadoopClient   = "org.apache.hadoop" %  "hadoop-client"   % Version.hadoop
   val logbackClassic = "ch.qos.logback"    %  "logback-classic" % Version.logback
   val mockitoAll     = "org.mockito"       %  "mockito-all"     % Version.mockito
   val scalaTest      = "org.scalatest"     %% "scalatest"       % Version.scalaTest
@@ -30,7 +28,6 @@ object Dependencies {
     sparkStreaming,
     akkaActor,
     akkaTestKit,
-    hadoopClient,
     logbackClassic % "test",
     scalaTest      % "test",
     mockitoAll     % "test"
