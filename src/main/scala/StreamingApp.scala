@@ -68,7 +68,7 @@ object StreamingApp {
   }
 
   private def performOperationsOnSparkStream(actorStream: ReceiverInputDStream[String]) {
-    val hello = "hello"
+    /*val hello = "hello"
     val windowStream = actorStream.window(Seconds(10), Seconds(1))
     val transformedStream = windowStream.map(line => {
       Array(line.split(" ")(0).toLong, line.split(" ")(1).toLong)
@@ -85,22 +85,37 @@ object StreamingApp {
       Array(0, math.max(a(1), b(1)))
     }).map(u => u(1).toDouble)
 
-    val averageOfMean = transformedStream.reduce((a, b) => Array( (a(0) + b(0))/2 )).
+    val averageOfMean: DStream[Double] = transformedStream.reduce((a, b) => Array( (a(0) + b(0))/2 )).
       map(u => u(0).toDouble)
+
+
+
+    val trial = transformedStream.transform( rdd => {
+      val mean = rdd.reduce((a, b) => Array( (a(0) + b(0))/2 ))
+
+      val big = rdd.reduce((a,b) => {
+        Array(0, math.max(a(1), b(1)))
+      })
+
+      rdd.map(f => Array(mean, big))
+    })
+
+    /*xy.toDF("x", "y").agg(min("y"), max("y"), mean("x"))
+      .as[(Long, Long, Double)].rdd*/
 
     //smallest.transformWith(biggest, (rdd1, rdd2: RDD[Double]) => rdd1.)
 
-    smallest.print()
+    trial.print()
 
     //averageOfMean.print()
-    //averageOfMean.foreachRDD( rdd =>
-    //rdd.foreach(record => shootMessage(record) )
-    //)
+    trial.foreachRDD( rdd =>
+    rdd.foreach(record => print(record(0).toString) )
+    )
 
     //val quantTime = transformedStream.reduce((a, b) =>
     //Array( (b(1) - a(1))*b(0) )).map(u => u(0).toDouble)
     //quantTime.print()
-
+*/
   }
 
   def shootMessage(record: Double){

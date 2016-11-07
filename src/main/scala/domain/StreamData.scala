@@ -3,7 +3,7 @@ package domain
 /**
  * The object carrying information for stream 2
  */
-class StreamData(slidingAverage: Double, quantTime: Double, ageOfOldestValue: Double, ageOfYoungestValue: Double) {
+class StreamData(slidingAverage: Double, quantTime: Long, ageOfOldestValue: Long, ageOfYoungestValue: Long) {
 
   def average = slidingAverage
   def quantizedTime = quantTime
