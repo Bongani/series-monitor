@@ -6,7 +6,7 @@ import domain.TimeValueObject
  * Akka actor representing stream 0. The stream will receive the message and send to the respective actors for calculations
  * of stream and stream 2
  */
-class Stream0Actor(stream1Ref: ActorRef, stream2Ref: ActorSelection) extends Actor {
+class Stream0Actor(stream1Ref: ActorRef, numberStorageActor: ActorRef) extends Actor {
 
   override def preStart() = {
     println("")
@@ -18,7 +18,7 @@ class Stream0Actor(stream1Ref: ActorRef, stream2Ref: ActorSelection) extends Act
     case number: Int => {
       val timestamp: Long = System.currentTimeMillis()
       stream1Ref ! number
-      stream2Ref ! number.toString + " " + timestamp.toString
+      numberStorageActor  ! new TimeValueObject(number, timestamp)
     }
   }
 }

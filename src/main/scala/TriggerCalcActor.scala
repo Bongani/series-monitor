@@ -1,6 +1,6 @@
 import akka.actor.{ActorRef, Actor}
 
-class TriggerCalcActor(dataStorageActor: ActorRef) extends Actor {
+class TriggerCalcActor(numberStorageActor: ActorRef) extends Actor {
 
   override def preStart() = {
     println("")
@@ -12,7 +12,7 @@ class TriggerCalcActor(dataStorageActor: ActorRef) extends Actor {
   override def receive: Receive = {
     case message: String => {
       pause()
-      dataStorageActor ! message
+      numberStorageActor ! message
       self ! message
     }
   }

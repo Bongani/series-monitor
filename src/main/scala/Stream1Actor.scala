@@ -25,6 +25,7 @@ class Stream1Actor extends Actor {
 
   override def receive: Receive = {
     case number: Int =>
-      printWriter.write(number + "\n")
+      printWriter.write(number.toString + "\n")
+      printWriter.flush()
   }
 }

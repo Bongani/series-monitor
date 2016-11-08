@@ -26,14 +26,11 @@ class Stream2Actor extends Actor {
 
   override def receive: Receive = {
     case data: StreamData => {
-      val computedString = round(data.average) + " " + round(data.quantizedTime) +
+      val computedString = data.average + " " + data.quantizedTime +
         " " + data.oldestAge.toString + " " + data.youngestAge.toString
       printWriter.write(computedString + "\n")
+      printWriter.flush()
     }
-    case value: Double =>
-      println("Recieved DSTREAM!!!!!!")
-    case value: String =>
-      println("GETTING SOMETHING")
   }
 
   private def round(value: Double): String = {

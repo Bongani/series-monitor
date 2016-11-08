@@ -27,9 +27,13 @@ class NumberGenerator(stream0Ref: ActorRef) extends Actor {
   }
 
   private def numberGenerator(): Int = {
-    val number = math.abs(random.nextInt())
+    val number = (random.nextFloat() * (math.pow(10, exponentialOperation()))).toInt
     val sleepTime = math.abs(random.nextInt())
     java.util.concurrent.TimeUnit.NANOSECONDS.sleep(sleepTime)
     return number
+  }
+
+  private def exponentialOperation(): Float ={
+    return 1 + (random.nextFloat() * 4)
   }
 }

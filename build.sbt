@@ -7,8 +7,8 @@ version      := "1.0"
 scalaVersion := Version.scala
 
 libraryDependencies ++= Dependencies.sparkAkkaHadoop
-libraryDependencies += "com.google.guava" % "guava" % "12.0"
-libraryDependencies += "com.github.cb372" %% "scalacache-guava" % "0.9.2"
+libraryDependencies += "net.jodah" % "expiringmap" % "0.5.7"
+
 
 releaseSettings
 
