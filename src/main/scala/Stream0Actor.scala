@@ -17,8 +17,9 @@ class Stream0Actor(stream1Ref: ActorRef, numberStorageActor: ActorRef) extends A
   override def receive: Receive = {
     case number: Int => {
       val timestamp: Long = System.currentTimeMillis()
-      stream1Ref ! number
-      numberStorageActor  ! new TimeValueObject(number, timestamp)
+      val timeValueObject = new TimeValueObject(number, timestamp)
+      stream1Ref ! timeValueObject
+      numberStorageActor  ! timeValueObject
     }
   }
 }
