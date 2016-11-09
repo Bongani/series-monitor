@@ -1,4 +1,4 @@
-Spark Streaming with Scala and Akka activator template
+Akka Data Series Monitor
 ======================================================
 
 [![Build Status](https://travis-ci.org/jaceklaskowski/spark-activator.svg?branch=master)](https://travis-ci.org/jaceklaskowski/spark-activator) [![Stories in Ready](https://badge.waffle.io/jaceklaskowski/spark-activator.png?label=ready&title=Ready)](https://waffle.io/jaceklaskowski/spark-activator)

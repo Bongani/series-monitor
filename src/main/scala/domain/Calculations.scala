@@ -2,12 +2,12 @@ package domain
 
 object Calculations {
 
-  def minimumTime(dataList: List[TimeValueObject]): Long ={
-    return dataList.head.time
+  def youngestTime(dataList: List[TimeValueObject]): Long ={
+    return dataList.last.time
   }
 
-  def maximumTime(dataList: List[TimeValueObject]): Long ={
-    return dataList.last.time
+  def oldestTime(dataList: List[TimeValueObject]): Long ={
+    return dataList.head.time
   }
 
   def slideAverage(dataList: List[TimeValueObject]): Double ={

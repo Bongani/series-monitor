@@ -16,7 +16,7 @@ class CalculateActor(stream2Actor: ActorRef)  extends Actor {
       if (dataList.size > 0) {
         val sortedList = dataList.sortBy(r => r.time)
         val streamData = new StreamData(Calculations.slideAverage(sortedList), Calculations.quantizedTime(sortedList),
-          Calculations.maximumTime(sortedList),Calculations.minimumTime(sortedList))
+          Calculations.oldestTime(sortedList),Calculations.youngestTime(sortedList))
         stream2Actor ! streamData
       } else if (dataList.size == 0){
         val streamData = new StreamData(0, 0, 0,0)

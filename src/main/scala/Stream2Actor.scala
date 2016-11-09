@@ -44,7 +44,7 @@ class Stream2Actor extends Actor {
   }
 
   private def writeToStream2Time(data: StreamData){
-    val endTimeStamp: Long = System.currentTimeMillis()
+    val endTimeStamp: Long = System.nanoTime()
     timeWriter.write(data.youngestAge.toString + " " + endTimeStamp.toString + "\n")
     timeWriter.flush()
   }

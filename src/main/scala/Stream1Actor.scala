@@ -40,7 +40,7 @@ class Stream1Actor extends Actor {
   }
 
   private def writeToStream1Time(startTimeStamp: Long){
-    val endTimeStamp: Long = System.currentTimeMillis()
+    val endTimeStamp: Long = System.nanoTime()
     timeWriter.write(startTimeStamp.toString + " " + endTimeStamp.toString + "\n")
     timeWriter.flush()
   }
