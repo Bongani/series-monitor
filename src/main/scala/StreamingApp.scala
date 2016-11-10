@@ -91,6 +91,8 @@ object StreamingApp {
     //smallest.transformWith(biggest, (rdd1, rdd2: RDD[Double]) => rdd1.)
 
     smallest.print()
+    biggest.print()
+    averageOfMean.print()
 
     //averageOfMean.print()
     //averageOfMean.foreachRDD( rdd =>
