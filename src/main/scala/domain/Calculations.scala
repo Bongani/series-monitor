@@ -10,8 +10,8 @@ object Calculations {
     return dataList.head.time
   }
 
-  def slideAverage(dataList: List[TimeValueObject]): Double ={
-    return (dataList.map(_.value).sum / dataList.size).toDouble
+  def slideAverage(dataList: List[TimeValueObject]): Float ={
+    return ((dataList.map(_.value).sum).toFloat / dataList.size)
   }
 
   def quantizedTime(dataList: List[TimeValueObject]): Long ={

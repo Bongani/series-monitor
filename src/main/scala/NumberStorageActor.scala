@@ -1,7 +1,9 @@
+import java.io.{File, PrintWriter}
 import java.util.concurrent.TimeUnit
 
 import akka.actor.{Actor, ActorRef}
 import domain.TimeValueObject
+import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator
 import net.jodah.expiringmap.{ExpirationPolicy, ExpiringMap}
 
 import scala.collection.mutable.ListBuffer
@@ -50,6 +52,20 @@ class NumberStorageActor(calcActor: ActorRef) extends Actor {
   private def addToMap(timeValueObject: TimeValueObject){
     keyTrackingList += timeValueObject.time
     expiringMap.put(timeValueObject.time.toString, timeValueObject)
+  }
+
+  private def printObjectSizes(timeValueList: List[TimeValueObject]): Unit ={
+    val sizeOfMap = ObjectSizeCalculator.getObjectSize(expiringMap)
+    val sizeOfKeyTrackingList = ObjectSizeCalculator.getObjectSize(keyTrackingList)
+    val sizeOfTimeValueList = ObjectSizeCalculator.getObjectSize(timeValueList)
+    var sizeTimeValueObject = 0L
+    if (!timeValueList.isEmpty){
+      sizeTimeValueObject = ObjectSizeCalculator.getObjectSize(timeValueList(0))
+    }
+    val stringToWrite = sizeOfMap.toString  + " " + sizeOfKeyTrackingList.toString + " " +
+      sizeOfTimeValueList.toString + " " + sizeTimeValueObject.toString
+    //printWriter.write(stringToWrite + "\n")
+    //printWriter.flush()
   }
 
 }

@@ -32,15 +32,20 @@ class Stream2Actor extends Actor {
     }
   }
 
-  private def round(value: Double): String = {
-    return BigDecimal(value).setScale(1).toString()
-  }
-
   private def writeToStream2(data: StreamData){
-    val computedString = data.average + " " + data.quantizedTime +
-      " " + data.oldestAge.toString + " " + data.youngestAge.toString
+    val computedString = roundOff(data.average) + " " + data.quantizedTime +
+      " " + convertToSeconds(data.oldestAge) + " " + convertToSeconds(data.youngestAge)
     printWriter.write(computedString + "\n")
     printWriter.flush()
+  }
+
+  private def convertToSeconds(value: Double): String = {
+    val valueInSeconds =  value / 1000000000.0f
+    return f"$valueInSeconds%1.6f"
+  }
+
+  private def roundOff(value: Float): String = {
+    return f"$value%1.2f"
   }
 
   private def writeToStream2Time(data: StreamData){
