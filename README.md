@@ -19,4 +19,3 @@ To run use the Lightbend Activator:
                                                             (windows: `bin\activator.bat clean run`)
 The Lightbend Activator will resolve all dependencies, compile and execute the application
 
-The application is set to execute for a minute with the Lightbend Activator
