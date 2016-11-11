@@ -17,5 +17,6 @@ To run use the Lightbend Activator:
     - Open up your terminal and navigate to the project directory
     - To execute the application use the following command `bin/activator clean run`
                                                             (windows: `bin\activator.bat clean run`)
-The Lightbend Activator will resolve all dependencies and execute the application
+The Lightbend Activator will resolve all dependencies, compile and execute the application
 
+The application is set to execute for a minute with the Lightbend Activator
