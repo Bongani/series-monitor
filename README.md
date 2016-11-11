@@ -1,11 +1,21 @@
 Akka Data Series Monitor
 ======================================================
 
-[![Build Status](https://travis-ci.org/jaceklaskowski/spark-activator.svg?branch=master)](https://travis-ci.org/jaceklaskowski/spark-activator) [![Stories in Ready](https://badge.waffle.io/jaceklaskowski/spark-activator.png?label=ready&title=Ready)](https://waffle.io/jaceklaskowski/spark-activator)
+This application is developed using scala.
 
-This is an [Typesafe Activator](http://typesafe.com/platform/getstarted) template
+To run with you're IDE of choice (IntelliJ preferred), please ensure your IDE has a Scala/SBT plugin.
+The project also requires Java 7.52 and above, Java 8 preferred.
+Once you have imported the project into your IDE, and all dependencies have been resolved by the IDE, you may
+run the application:
+    - Go to the StreamingApp.class file
+    - Right click, and select 'Run StreamingApp'
 
-# Run the activator project
+=======================
 
-Once you download the activator template, execute `./activator clean run`.
+The project can also be run using the Lightbend Activator, which makes it simpler to get an application running.
+To run use the Lightbend Activator:
+    - Open up your terminal and navigate to the project directory
+    - To execute the application use the following command `bin/activator clean run`
+                                                            (windows: `bin\activator.bat clean run`)
+The Lightbend Activator will resolve all dependencies and execute the application
 

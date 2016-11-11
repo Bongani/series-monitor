@@ -21,14 +21,12 @@ object StreamingApp {
     val numberGenerator = actorSystem.actorOf(Props(new NumberGenerator(stream0Actor)), name = "numberGenerator")
     val triggerCalcActor = actorSystem.actorOf(Props(new TriggerCalcActor(numberStorageActor)), name = "triggerCalcActor")
 
-    scala.io.StdIn.readLine("Press Enter to the application...")
-    println("Shutting down")
-    actorSystem.terminate()
-    /*actorSystem.scheduler.scheduleOnce(1 minutes) {
-      println("shutdown")
+
+    actorSystem.scheduler.scheduleOnce(1 minutes) {
+      scala.io.StdIn.readLine("Press Enter to terminate the application...")
+      println("Shutting down")
       actorSystem.terminate()
     }
-*/
   }
 
 }
